@@ -1,0 +1,381 @@
+/* =====================================================================
+   गौरी-गणपती आरास २०२६  —  Sacred Botanical Almanac
+   Design system: sandalwood paper · temple maroon · marigold · leaf green
+   ===================================================================== */
+
+:root{
+  /* --- surfaces --- */
+  --paper:        #f7edd8;   /* sandalwood paper canvas */
+  --paper-2:      #f2e3c4;   /* deeper paper, panels */
+  --card:         #fffaf0;   /* raised specimen card */
+  --edge:         #e4d2ab;   /* soft paper edge */
+
+  /* --- ink --- */
+  --ink:          #3a1710;   /* temple maroon-brown text */
+  --ink-soft:     #6b4a35;   /* secondary text */
+  --ink-faint:    #9a7d63;   /* captions */
+
+  /* --- accents (festival: haldi–kumkum–marigold) --- */
+  --saffron:      #e08a1e;
+  --saffron-deep: #c96a08;
+  --kumkum:       #9b2226;   /* temple red */
+  --kumkum-deep:  #7a1519;
+  --leaf:         #4e6e3a;   /* botanical green */
+  --leaf-deep:    #3a5329;
+  --gold:         #c29a45;   /* hairlines, plate borders */
+  --gold-soft:    #d9be80;
+
+  /* --- type --- */
+  --dev-display: "Tiro Devanagari Marathi", serif;
+  --dev-body:    "Mukta", sans-serif;
+  --lat-display: "Marcellus", serif;
+  --lat-body:    "Inter", system-ui, sans-serif;
+
+  --shadow-card: 0 1px 0 #fff6 inset, 0 10px 30px -18px rgba(58,23,16,.5);
+  --shadow-lift: 0 20px 48px -24px rgba(58,23,16,.55);
+  --radius:      14px;
+  --maxw:        1120px;
+}
+
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, #fbf4e2 0%, transparent 60%),
+    var(--paper);
+  color:var(--ink);
+  font-family:var(--lat-body);
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+/* subtle woven-paper texture */
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+  opacity:.5;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(120,80,40,.035) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(120,80,40,.03) 0 1px, transparent 1px 3px);
+}
+img{ max-width:100%; display:block; }
+a{ color:inherit; }
+
+.wrap{ max-width:var(--maxw); margin:0 auto; padding:0 24px; position:relative; z-index:1; }
+
+/* language helpers */
+.mr{ font-family:var(--dev-body); }
+.mr-d{ font-family:var(--dev-display); }
+.en{ font-family:var(--lat-body); }
+[lang="en"]{ color:var(--ink-soft); }
+
+.devnum{ font-family:var(--dev-display); }
+
+/* ---------- torana (garland) divider ---------- */
+.torana{ width:100%; height:26px; display:block; color:var(--saffron); }
+.torana--maroon{ color:var(--kumkum); }
+
+/* =====================================================================
+   HEADER
+   ===================================================================== */
+.site-head{
+  position:sticky; top:0; z-index:20;
+  background:linear-gradient(#f7edd8f2,#f7edd8e6);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--edge);
+}
+.site-head .wrap{ display:flex; align-items:center; gap:16px; height:66px; }
+.brand{ display:flex; align-items:center; gap:12px; text-decoration:none; margin-right:auto; }
+.brand .om{
+  width:38px; height:38px; display:grid; place-items:center; flex:none;
+  background:radial-gradient(circle at 40% 35%, var(--saffron), var(--saffron-deep));
+  color:#fff; border-radius:50%; font-size:20px;
+  box-shadow:0 6px 16px -6px var(--saffron-deep);
+}
+.brand b{ font-family:var(--dev-display); font-weight:400; font-size:20px; line-height:1; }
+.brand small{ display:block; font-family:var(--lat-display); font-size:11.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--ink-faint); margin-top:3px; }
+.nav{ display:flex; gap:26px; }
+.nav a{ text-decoration:none; font-family:var(--lat-display); font-size:15px; letter-spacing:.02em;
+  color:var(--ink-soft); padding:6px 2px; border-bottom:2px solid transparent; }
+.nav a:hover, .nav a.active{ color:var(--kumkum); border-color:var(--saffron); }
+
+/* =====================================================================
+   HERO (home)
+   ===================================================================== */
+.hero{ text-align:center; padding:64px 0 28px; }
+.hero .kicker{
+  font-family:var(--lat-display); letter-spacing:.32em; text-transform:uppercase;
+  font-size:13px; color:var(--saffron-deep); margin:0 0 18px;
+}
+.hero h1{
+  font-family:var(--dev-display); font-weight:400;
+  font-size:clamp(2.4rem, 6vw, 4.4rem); line-height:1.08; margin:0;
+  color:var(--ink); text-wrap:balance;
+}
+.hero .year{
+  display:inline-block; font-family:var(--lat-display); color:var(--kumkum);
+  font-size:clamp(1rem,2vw,1.3rem); letter-spacing:.1em; margin-top:6px;
+}
+.hero .theme{
+  max-width:760px; margin:22px auto 0; font-size:1.18rem; color:var(--ink-soft);
+  text-wrap:balance;
+}
+.hero .theme .en{ display:block; font-size:.98rem; color:var(--ink-faint); margin-top:6px; }
+.hero .intro{ max-width:640px; margin:26px auto 0; color:var(--ink-soft); font-size:1rem; }
+.hero .intro .en{ display:block; margin-top:8px; color:var(--ink-faint); font-size:.92rem; }
+
+.count-pill{
+  display:inline-flex; align-items:center; gap:10px; margin-top:30px;
+  padding:9px 20px; border:1px solid var(--gold); border-radius:999px;
+  background:var(--card); font-family:var(--lat-display); letter-spacing:.04em;
+  color:var(--ink-soft); box-shadow:var(--shadow-card);
+}
+.count-pill b{ color:var(--kumkum); font-family:var(--dev-display); font-size:1.25em; }
+
+/* =====================================================================
+   PATRI GRID (home)
+   ===================================================================== */
+.grid-head{ display:flex; align-items:baseline; justify-content:space-between; gap:16px;
+  margin:56px 0 22px; padding-bottom:14px; border-bottom:1px solid var(--edge); }
+.grid-head h2{ font-family:var(--dev-display); font-weight:400; font-size:1.9rem; margin:0; }
+.grid-head span{ font-family:var(--lat-display); color:var(--ink-faint); letter-spacing:.1em;
+  text-transform:uppercase; font-size:12.5px; }
+
+.grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(238px,1fr)); gap:22px; padding-bottom:20px; }
+
+.card{
+  position:relative; display:flex; flex-direction:column;
+  background:var(--card); border:1px solid var(--edge); border-radius:var(--radius);
+  overflow:hidden; text-decoration:none; color:inherit;
+  box-shadow:var(--shadow-card); transition:transform .25s ease, box-shadow .25s ease;
+}
+.card--ready:hover{ transform:translateY(-6px);
+  box-shadow:0 0 0 1px var(--gold), 0 24px 44px -20px rgba(201,106,8,.55), var(--shadow-lift); }
+.card--ready:hover .card__plate{ background:radial-gradient(circle at 50% 38%, #fff, #fbeecb); }
+.card--ready:hover .card__no{ background:var(--saffron); color:#fff; border-color:var(--saffron); }
+.card__plate{
+  position:relative; aspect-ratio:1/1; background:
+    radial-gradient(circle at 50% 40%, #fff, var(--paper-2));
+  display:grid; place-items:center; border-bottom:1px solid var(--edge); overflow:hidden;
+}
+.card__plate img{ width:82%; height:82%; object-fit:contain;
+  filter:drop-shadow(0 12px 18px rgba(58,23,16,.18));
+  transition:transform .5s cubic-bezier(.2,.7,.2,1); }
+.card--ready:hover .card__plate img{ transform:scale(1.06) rotate(-1deg); }
+.card__no{ transition:background .3s ease, color .3s ease, border-color .3s ease; }
+.card__no{
+  position:absolute; top:10px; left:12px; font-family:var(--dev-display);
+  font-size:1.15rem; color:var(--kumkum);
+  width:34px; height:34px; display:grid; place-items:center;
+  border:1px solid var(--gold); border-radius:50%; background:#fffaf0cc;
+}
+.card__soon{
+  position:absolute; inset:0; display:grid; place-items:center; gap:6px;
+  background:repeating-linear-gradient(135deg,#f4e6c880 0 12px,#efe0bd80 12px 24px);
+  color:var(--ink-faint); text-align:center;
+}
+.card__soon .leaf{ font-size:1.8rem; opacity:.6; }
+.card__soon b{ font-family:var(--dev-display); color:var(--ink-soft); font-weight:400; }
+.card__soon small{ font-family:var(--lat-display); letter-spacing:.14em; text-transform:uppercase; font-size:10.5px; }
+.card__body{ padding:15px 16px 18px; }
+.card__body h3{ font-family:var(--dev-display); font-weight:400; font-size:1.28rem; margin:0; line-height:1.15; }
+.card__body .en{ display:block; font-family:var(--lat-display); color:var(--ink-soft); font-size:.9rem; margin-top:2px; }
+.card__body em{ display:block; font-style:italic; color:var(--leaf-deep); font-size:.82rem; margin-top:9px; }
+
+/* =====================================================================
+   DETAIL PAGE
+   ===================================================================== */
+.detail-hero{ padding:38px 0 8px; }
+.crumb{ font-family:var(--lat-display); letter-spacing:.06em; font-size:14px; color:var(--ink-faint);
+  text-decoration:none; display:inline-flex; align-items:center; gap:8px; }
+.crumb:hover{ color:var(--kumkum); }
+
+.plate-row{ display:grid; grid-template-columns:1fr 1fr; gap:44px; align-items:center; margin-top:26px; }
+
+.specimen{
+  position:relative; background:radial-gradient(circle at 50% 42%, #fff, var(--paper-2));
+  border:1px solid var(--gold); border-radius:var(--radius); padding:30px;
+  box-shadow:var(--shadow-lift); aspect-ratio:1/1; display:grid; place-items:center;
+}
+.specimen::after{ content:""; position:absolute; inset:10px; border:1px solid var(--gold-soft);
+  border-radius:8px; pointer-events:none; }
+.specimen img{ width:88%; height:88%; object-fit:contain;
+  filter:drop-shadow(0 20px 26px rgba(58,23,16,.22)); }
+.specimen .plate-no{
+  position:absolute; top:16px; right:18px; font-family:var(--dev-display); color:var(--kumkum);
+  text-align:right; line-height:1;
+}
+.specimen .plate-no b{ font-size:2rem; font-weight:400; display:block; }
+.specimen .plate-no small{ font-family:var(--lat-display); letter-spacing:.2em; font-size:10px;
+  text-transform:uppercase; color:var(--ink-faint); }
+
+.intro-col .tagline{ font-family:var(--lat-display); letter-spacing:.2em; text-transform:uppercase;
+  font-size:12.5px; color:var(--saffron-deep); margin:0 0 12px; }
+.intro-col h1{ font-family:var(--dev-display); font-weight:400; font-size:clamp(2.2rem,5vw,3.4rem);
+  line-height:1.1; margin:0; text-wrap:balance; }
+.intro-col .latin{ font-family:var(--lat-display); font-size:1.35rem; color:var(--ink-soft); margin:4px 0 0; }
+.intro-col .binom{ font-style:italic; color:var(--leaf-deep); font-size:1.02rem; margin:12px 0 0; }
+.intro-col .binom span{ font-style:normal; color:var(--ink-faint); }
+
+.mantra-card{
+  margin-top:22px; background:linear-gradient(180deg,#fff7e6,#fbeecb);
+  border:1px solid var(--gold); border-left:4px solid var(--saffron);
+  border-radius:12px; padding:18px 20px; box-shadow:var(--shadow-card);
+}
+.mantra-card .deity{ font-family:var(--lat-display); letter-spacing:.12em; text-transform:uppercase;
+  font-size:11.5px; color:var(--kumkum); margin:0 0 8px; }
+.mantra-card .mantra{ font-family:var(--dev-display); font-size:1.4rem; line-height:1.4; color:var(--ink); margin:0; }
+.mantra-card .mean{ font-size:.9rem; color:var(--ink-soft); margin:10px 0 0; }
+.mantra-card .mean .en{ display:block; color:var(--ink-faint); margin-top:3px; }
+.mantra-card--await{ background:linear-gradient(180deg,#fbf3e0,#f4e7c8); border-left-color:var(--gold);
+  animation:none !important; }
+
+/* section flow */
+.sections{ margin:52px 0; display:grid; gap:26px; }
+.sec{
+  background:var(--card); border:1px solid var(--edge); border-radius:var(--radius);
+  padding:26px 30px; box-shadow:var(--shadow-card); position:relative;
+}
+.sec > h2{ display:flex; align-items:center; gap:12px; margin:0 0 4px;
+  font-family:var(--dev-display); font-weight:400; font-size:1.55rem; }
+.sec > h2 .icon{ font-size:1.5rem; line-height:1; }
+.sec > h2 .en{ font-family:var(--lat-display); font-size:1rem; color:var(--ink-faint); letter-spacing:.04em; }
+.sec .rule{ height:1px; background:linear-gradient(90deg,var(--gold),transparent); margin:14px 0 18px; }
+
+.bilist{ list-style:none; margin:0; padding:0; display:grid; gap:15px; }
+.bilist li{ padding-left:22px; position:relative; }
+.bilist li::before{ content:"❁"; position:absolute; left:0; top:1px; color:var(--saffron); font-size:.85rem; }
+.bilist .mr{ display:block; }
+.bilist .en{ display:block; color:var(--ink-faint); font-size:.92rem; margin-top:3px; }
+
+.sec-note{ margin-top:18px; font-size:.86rem; color:var(--ink-soft);
+  background:#f6e7c6; border:1px dashed var(--gold); border-radius:10px; padding:12px 15px; }
+.sec-note .en{ display:block; color:var(--ink-faint); margin-top:5px; }
+
+/* botany fact table */
+.facts{ display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:1px;
+  background:var(--edge); border:1px solid var(--edge); border-radius:10px; overflow:hidden; margin-bottom:20px; }
+.facts div{ background:var(--card); padding:12px 14px; }
+.facts dt{ font-family:var(--lat-display); font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-faint); margin:0; }
+.facts dd{ margin:5px 0 0; font-size:1.02rem; color:var(--ink); }
+.facts dd.mr{ font-family:var(--dev-body); }
+
+/* care grid */
+.care{ display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:16px; }
+.care .cell{ background:var(--paper); border:1px solid var(--edge); border-radius:12px; padding:16px; }
+.care .cell .top{ display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+.care .cell .em{ font-size:1.5rem; }
+.care .cell .label{ font-family:var(--dev-display); font-size:1.15rem; }
+.care .cell .label .en{ display:block; font-family:var(--lat-display); font-size:.72rem;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); }
+.care .cell p{ margin:0; font-size:.92rem; }
+.care .cell .en{ display:block; color:var(--ink-faint); font-size:.85rem; margin-top:5px; }
+
+/* fun-fact callout */
+.sec--fact{ background:linear-gradient(180deg,#fff6df,#f8e9c4); border-color:var(--gold); }
+.callout{ border:1px solid var(--gold); border-radius:12px; padding:20px 22px; background:#fffdf6; }
+.callout h3{ font-family:var(--dev-display); font-weight:400; color:var(--kumkum); font-size:1.3rem; margin:0 0 4px; }
+.callout h3 .en{ display:block; font-family:var(--lat-display); font-size:.85rem; color:var(--ink-faint);
+  letter-spacing:.08em; text-transform:uppercase; margin-top:3px; }
+
+/* references */
+.refs{ font-size:.9rem; }
+.refs ol{ margin:0; padding-left:20px; display:grid; gap:12px; color:var(--ink-soft); }
+.refs .en{ display:block; color:var(--ink-faint); font-size:.85rem; margin-top:3px; }
+
+/* prev/next */
+.pager{ display:flex; justify-content:space-between; gap:16px; margin:10px 0 50px; }
+.pager a{ text-decoration:none; font-family:var(--lat-display); color:var(--ink-soft);
+  border:1px solid var(--edge); border-radius:10px; padding:12px 18px; background:var(--card);
+  box-shadow:var(--shadow-card); }
+.pager a:hover{ color:var(--kumkum); border-color:var(--gold); }
+.pager a.disabled{ opacity:.4; pointer-events:none; }
+
+/* =====================================================================
+   FOOTER
+   ===================================================================== */
+.site-foot{ margin-top:40px; border-top:1px solid var(--edge); background:var(--paper-2); }
+.site-foot .wrap{ padding:34px 24px; text-align:center; color:var(--ink-soft); }
+.site-foot .om{ font-size:1.6rem; color:var(--saffron-deep); }
+.site-foot p{ margin:8px 0 0; font-size:.92rem; }
+.site-foot .en{ color:var(--ink-faint); font-size:.85rem; }
+
+/* =====================================================================
+   RESPONSIVE
+   ===================================================================== */
+@media (max-width:820px){
+  .plate-row{ grid-template-columns:1fr; gap:26px; }
+  .specimen{ max-width:420px; margin:0 auto; }
+  .nav{ display:none; }
+  .sec{ padding:22px 20px; }
+}
+@media (max-width:520px){
+  body{ font-size:16px; }
+  .hero{ padding:44px 0 18px; }
+}
+
+/* =====================================================================
+   MOTION  —  scroll reveal, load-in, glow
+   ===================================================================== */
+@keyframes fadeUp{ from{ opacity:0; transform:translateY(22px); } to{ opacity:1; transform:none; } }
+@keyframes floatY{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-7px); } }
+@keyframes mantraGlow{
+  0%,100%{ box-shadow:var(--shadow-card); }
+  50%{ box-shadow:var(--shadow-card), 0 0 26px -6px rgba(224,138,30,.55); } }
+
+/* scroll-reveal: JS adds .reveal (start hidden) then .in (animate in) */
+.reveal{ opacity:0; transform:translateY(22px); }
+.reveal.in{ animation:fadeUp .7s cubic-bezier(.2,.7,.2,1) both; }
+
+/* hero load-in (staggered via nth-child) */
+.hero.enter > .wrap > *{ opacity:0; animation:fadeUp .8s cubic-bezier(.2,.7,.2,1) both; }
+.hero.enter > .wrap > *:nth-child(1){ animation-delay:.05s; }
+.hero.enter > .wrap > *:nth-child(2){ animation-delay:.14s; }
+.hero.enter > .wrap > *:nth-child(3){ animation-delay:.22s; }
+.hero.enter > .wrap > *:nth-child(4){ animation-delay:.30s; }
+.hero.enter > .wrap > *:nth-child(5){ animation-delay:.40s; }
+.hero.enter > .wrap > *:nth-child(6){ animation-delay:.50s; }
+
+/* detail specimen gentle float + mantra breathing glow */
+.specimen{ animation:floatY 7s ease-in-out infinite; }
+.mantra-card{ animation:mantraGlow 5.5s ease-in-out infinite; }
+
+/* nav underline slide */
+.nav a{ position:relative; border-bottom:0 !important; }
+.nav a::after{ content:""; position:absolute; left:0; right:100%; bottom:0; height:2px;
+  background:var(--saffron); transition:right .3s cubic-bezier(.2,.7,.2,1); }
+.nav a:hover::after, .nav a.active::after{ right:0; }
+
+/* section headers: soft entrance of the gold rule */
+.sec .rule{ transform-origin:left; }
+.reveal.in .rule{ animation:ruleGrow .8s .15s ease both; }
+@keyframes ruleGrow{ from{ transform:scaleX(0); } to{ transform:scaleX(1); } }
+
+/* pager hover nudge */
+.pager a{ transition:transform .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease; }
+.pager a:first-child:hover{ transform:translateX(-4px); }
+.pager a:last-child:hover{ transform:translateX(4px); }
+
+/* care + fact cells gentle hover */
+.care .cell, .facts div{ transition:transform .25s ease, box-shadow .25s ease; }
+.care .cell:hover{ transform:translateY(-3px); box-shadow:var(--shadow-card); }
+
+/* =====================================================================
+   PLACEHOLDER SPECIMEN PLATE  (when a real photo isn't added yet)
+   ===================================================================== */
+.plate-ph{ display:grid; place-items:center; width:86%; height:86%; text-align:center; gap:10px; }
+.plate-ph svg{ width:44%; max-width:150px; color:var(--leaf); opacity:.9; }
+.card__plate .plate-ph svg{ width:52%; }
+.plate-ph .ph-name{ font-family:var(--dev-display); color:var(--ink-soft); font-size:1.05rem; line-height:1.1; }
+.plate-ph .ph-tag{ font-family:var(--lat-display); letter-spacing:.16em; text-transform:uppercase;
+  font-size:9.5px; color:var(--ink-faint); }
+.specimen .plate-ph .ph-name{ font-size:1.5rem; color:var(--leaf-deep); }
+.specimen .plate-ph .ph-tag{ font-size:11px; }
+
+/* motion honour — must stay last */
+@media (prefers-reduced-motion:reduce){
+  *{ transition:none !important; animation:none !important; scroll-behavior:auto !important; }
+  .reveal{ opacity:1 !important; transform:none !important; }
+}

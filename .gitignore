@@ -1,0 +1,6 @@
+# local deploy staging (duplicate of site root) and archives
+deploy/
+*.zip
+# raw research kept private on local machine only (not published)
+/1. Malati.png
+/1. Malati_Patri_01_Final_Research_Dossier.docx
