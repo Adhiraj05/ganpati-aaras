@@ -1,4 +1,4 @@
-/* गौरी-गणपती आरास — rendering (home grid + patri detail) */
+/* गौरी-गणपती आरास, rendering (home grid + patri detail) */
 
 const $ = (s, r = document) => r.querySelector(s);
 const el = (t, cls, html) => { const n = document.createElement(t); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; };
@@ -29,7 +29,7 @@ const placeholderInner = (p, big) =>
 function plateInner(p, big) {
   if (!p.image) return placeholderInner(p, big);
   const ph = placeholderInner(p, big).replace('class="plate-ph"', 'class="plate-ph" hidden');
-  return `<img src="${p.image}" alt="${esc(p.name.en)} — ${esc(p.botanical)}"
+  return `<img src="${p.image}" alt="${esc(p.name.en)}, ${esc(p.botanical)}"
       onerror="var pl=this.parentElement;pl.classList.add('noimg');var g=pl.querySelector('.plate-ph');if(g)g.hidden=false;this.remove();">${ph}`;
 }
 
@@ -44,6 +44,20 @@ const TORANA = (mod = "") => {
   return `<svg class="torana ${mod}" viewBox="0 0 1200 26" preserveAspectRatio="none" aria-hidden="true">
     <line x1="0" y1="4" x2="1200" y2="4" stroke="currentColor" stroke-width="1.4" opacity=".5"/>${dots}</svg>`;
 };
+
+/* faint lotus mandala behind the hero title */
+const MANDALA = (() => {
+  let outer = "", inner = "";
+  for (let i = 0; i < 16; i++) {
+    outer += `<path d="M100 100 C88 52 112 52 100 22 C100 52 100 52 100 100Z" transform="rotate(${i * 22.5} 100 100)"/>`;
+  }
+  for (let i = 0; i < 16; i++) {
+    inner += `<path d="M100 100 C93 68 107 68 100 48 Z" transform="rotate(${i * 22.5 + 11.25} 100 100)"/>`;
+  }
+  return `<svg class="hero-mandala" viewBox="0 0 200 200" aria-hidden="true">
+    <g fill="currentColor">${outer}</g><g fill="currentColor" opacity=".6">${inner}</g>
+    <circle cx="100" cy="100" r="9" fill="currentColor"/></svg>`;
+})();
 
 const header = active => `
   <header class="site-head"><div class="wrap">
@@ -70,10 +84,10 @@ function renderHome(root) {
   const readyCount = PATRIS.filter(p => p.ready).length;
   root.innerHTML = header('home') + TORANA() + `
     <main>
-      <section class="hero"><div class="wrap">
+      <section class="hero">${MANDALA}<div class="wrap">
         <p class="kicker">गणेशोत्सव · ${esc(FESTIVAL.year)}</p>
         <h1 class="mr-d">${esc(FESTIVAL.title.mr)}</h1>
-        <div class="year">Gauri–Ganpati Aaras · ${esc(FESTIVAL.year)}</div>
+        <div class="year">Gauri-Ganpati Aaras · ${esc(FESTIVAL.year)}</div>
         <p class="theme mr">${esc(FESTIVAL.theme.mr)}
           <span class="en" lang="en">${esc(FESTIVAL.theme.en)}</span></p>
         <p class="intro mr">${esc(FESTIVAL.intro.mr)}
@@ -85,6 +99,16 @@ function renderHome(root) {
         </div>
       </div></section>
 
+      <section class="dates-strip"><div class="wrap">
+        <div class="dates-head"><span class="mr-d">२०२६ चा पंचांग</span><span class="en" lang="en">Festival dates · Maharashtra</span></div>
+        <div class="dates">
+          ${FESTIVAL.dates.map(d => `<div class="date-chip">
+            <b class="mr-d">${esc(d.date.mr)}</b>
+            <span class="dlabel mr">${esc(d.label.mr)}</span>
+            <span class="dlabel en" lang="en">${esc(d.label.en)} · ${esc(d.date.en)}</span></div>`).join('')}
+        </div>
+      </div></section>
+
       <section id="patris"><div class="wrap">
         <div class="grid-head">
           <h2 class="mr-d">पत्री संग्रह</h2>
@@ -93,10 +117,16 @@ function renderHome(root) {
         <div class="grid" id="grid"></div>
       </div></section>
 
-      <section id="about"><div class="wrap about-block" style="max-width:760px;margin:40px auto 60px;text-align:center">
-        <div class="grid-head" style="justify-content:center"><h2 class="mr-d">आरास विषयी</h2></div>
-        <p class="mr" style="color:var(--ink-soft)">प्रत्येक पत्रीमागे एक कथा, एक शास्त्र आणि एक वनस्पती आहे. या आरासेत आपण एकविंशति पत्रींची पूजेतील जागा, संस्कृत संदर्भ, आयुर्वेद, वनस्पतीशास्त्र आणि संगोपन एकत्र मांडले आहे — श्रद्धा आणि जिज्ञासा यांचा सुंदर संगम.</p>
-        <p class="en" lang="en" style="color:var(--ink-faint);margin-top:14px">Behind every leaf lies a story, a science and a plant. This aaras gathers, for each of the twenty-one patris, its place in the puja, its Sanskrit roots, Ayurveda, botany and care — where devotion meets curiosity.</p>
+      <section id="about" class="festival"><div class="wrap">
+        <div class="grid-head"><h2 class="mr-d">आरास विषयी</h2><span>About the Festival</span></div>
+        <div class="fgrid">
+          ${FESTIVAL.about.map(a => `<article class="fcard">
+            <div class="fic">${a.icon}</div>
+            <h3 class="mr-d">${esc(a.title.mr)}<span class="en" lang="en">${esc(a.title.en)}</span></h3>
+            <p class="mr">${esc(a.body.mr)}</p>
+            <p class="en" lang="en">${esc(a.body.en)}</p>
+          </article>`).join('')}
+        </div>
       </div></section>
     </main>` + footer();
 
@@ -148,7 +178,7 @@ function renderDetail(root) {
           <div class="intro-col">
             <p class="tagline">${esc(p.tagline.en)}</p>
             <h1 class="mr-d">${esc(p.name.mr)}</h1>
-            <p class="latin">${esc(p.name.en)} — ${esc(p.common.en)}</p>
+            <p class="latin">${esc(p.name.en)}, ${esc(p.common.en)}</p>
             <p class="binom">${esc(p.botanical)} <span>· ${esc(p.family)}</span></p>
             ${mantraCard(p)}
           </div>
@@ -175,7 +205,7 @@ function mantraCard(p) {
       <p class="mean"><span class="mr">${esc(p.mantraMeaning.mr)}</span>
          <span class="en" lang="en">${esc(p.mantraMeaning.en)}</span></p></div>`;
   }
-  // no verified mantra yet — show a graceful, honest note
+  // no verified mantra yet, show a graceful, honest note
   return `<div class="mantra-card mantra-card--await">
       <p class="deity">पत्री अर्पण · Leaf offering</p>
       <p class="mean"><span class="mr">या पत्रीचा नाम-मंत्र आईंच्या पूजाविधीनुसार लवकरच जोडला जाईल.</span>
@@ -229,10 +259,14 @@ function setupMotion(root) {
   if (hero && !reduce) hero.classList.add('enter');
   if (reduce) return;
 
-  const items = [...root.querySelectorAll('.grid-head, .grid .card, .sec, .about-block, .pager')];
-  // stagger the grid cards within their rows
+  const items = [...root.querySelectorAll('.grid-head, .grid .card, .dates-strip, .fcard, .sec, .pager')];
+  // stagger the grid cards, festival cards and date chips within their rows
   root.querySelectorAll('.grid .card').forEach((n, i) =>
     n.style.setProperty('animation-delay', (Math.min(i, 9) * 0.055) + 's'));
+  root.querySelectorAll('.fcard').forEach((n, i) =>
+    n.style.setProperty('animation-delay', (i * 0.08) + 's'));
+  root.querySelectorAll('.date-chip').forEach((n, i) =>
+    n.style.setProperty('animation', `fadeUp .6s ${0.05 + i * 0.07}s both`));
 
   if (!('IntersectionObserver' in window)) { items.forEach(n => n.classList.add('in')); return; }
   const io = new IntersectionObserver((entries) => {
