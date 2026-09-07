@@ -59,6 +59,35 @@ const MANDALA = (() => {
     <circle cx="100" cy="100" r="9" fill="currentColor"/></svg>`;
 })();
 
+/* refined line-art Ganesha emblem for the hero */
+const GANESHA = `<svg class="ganesha" viewBox="0 0 140 150" fill="none" stroke="currentColor"
+  stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- crown / mukut -->
+  <path d="M70 10 C74 16 74 20 70 24 C66 20 66 16 70 10 Z" fill="currentColor" stroke="none"/>
+  <path d="M52 34 C56 22 64 18 70 18 C76 18 84 22 88 34"/>
+  <path d="M58 30 L58 24 M70 28 L70 20 M82 30 L82 24"/>
+  <!-- head -->
+  <path d="M45 46 C52 36 60 33 70 33 C80 33 88 36 95 46
+           C101 58 99 72 88 82 C80 90 60 90 52 82 C41 72 39 58 45 46 Z"/>
+  <!-- tilak -->
+  <path d="M70 38 C67 44 67 48 70 52 C73 48 73 44 70 38"/>
+  <!-- eyes -->
+  <path d="M55 56 C58 53 62 53 65 56"/>
+  <path d="M75 56 C78 53 82 53 85 56"/>
+  <!-- ears with inner curl -->
+  <path d="M46 50 C30 46 20 54 20 66 C20 78 32 84 48 78"/>
+  <path d="M40 58 C34 60 33 68 40 70"/>
+  <path d="M94 50 C110 46 120 54 120 66 C120 78 108 84 92 78"/>
+  <path d="M100 58 C106 60 107 68 100 70"/>
+  <!-- trunk curving to one side with a curl -->
+  <path d="M70 64 C70 82 62 96 52 104 C44 110 44 120 54 122 C62 123 64 116 60 112"/>
+  <!-- tusks -->
+  <path d="M60 82 C57 88 59 92 64 93"/>
+  <path d="M80 82 C83 88 81 92 76 93"/>
+  <!-- little modak in hand hint -->
+  <path d="M96 96 C92 92 86 92 84 98 C82 104 90 108 94 104 C97 101 99 99 96 96 Z"/>
+</svg>`;
+
 const header = active => `
   <header class="site-head"><div class="wrap">
     <a class="brand" href="index.html">
@@ -79,12 +108,21 @@ const footer = () => `
     <p class="en" lang="en">${esc(FESTIVAL.host.en)} · A living almanac of the twenty-one sacred leaves.</p>
   </div></footer>`;
 
+/* home grid filters */
+const FILTERS = [
+  { key: "all",    mr: "सर्व",          en: "All" },
+  { key: "flower", mr: "फुले",          en: "Flowers" },
+  { key: "tree",   mr: "वृक्ष",         en: "Trees" },
+  { key: "herb",   mr: "पत्री व वेली",  en: "Herbs & Leaves" }
+];
+
 /* ------------------------------- HOME ------------------------------- */
 function renderHome(root) {
   const readyCount = PATRIS.filter(p => p.ready).length;
   root.innerHTML = header('home') + TORANA() + `
     <main>
       <section class="hero">${MANDALA}<div class="wrap">
+        <div class="hero-emblem">${GANESHA}</div>
         <p class="kicker">गणेशोत्सव · ${esc(FESTIVAL.year)}</p>
         <h1 class="mr-d">${esc(FESTIVAL.title.mr)}</h1>
         <div class="year">Gauri-Ganpati Aaras · ${esc(FESTIVAL.year)}</div>
@@ -114,6 +152,10 @@ function renderHome(root) {
           <h2 class="mr-d">पत्री संग्रह</h2>
           <span>The Twenty-One Leaves</span>
         </div>
+        <div class="filters" id="filters">
+          ${FILTERS.map((f, i) => `<button class="filter${i === 0 ? ' active' : ''}" data-key="${f.key}" type="button">
+            <span class="mr-d">${esc(f.mr)}</span><span class="en">${esc(f.en)}</span></button>`).join('')}
+        </div>
         <div class="grid" id="grid"></div>
       </div></section>
 
@@ -132,12 +174,37 @@ function renderHome(root) {
 
   const grid = $('#grid', root);
   PATRIS.forEach(p => grid.appendChild(card(p)));
+  wireFilters(root);
+}
+
+/* filter the grid by kind (flower / tree / herb), with a soft re-entrance */
+function wireFilters(root) {
+  const btns = [...root.querySelectorAll('.filter')];
+  const cards = [...root.querySelectorAll('#grid .card')];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  btns.forEach(btn => btn.addEventListener('click', () => {
+    btns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const key = btn.dataset.key;
+    let shown = 0;
+    cards.forEach(c => {
+      const match = key === 'all' || c.dataset.kind === key;
+      c.classList.toggle('is-hidden', !match);
+      if (match && !reduce) {
+        c.style.animation = 'none';
+        void c.offsetWidth;                       // reflow to replay
+        c.style.animation = `fadeUp .45s ${Math.min(shown, 9) * 0.04}s both`;
+        shown++;
+      }
+    });
+  }));
 }
 
 function card(p) {
   const no = `<span class="card__no devnum">${DEVANAGARI_NUM[p.number]}</span>`;
   if (!p.ready) {
     const a = el('div', 'card card--soon');
+    a.dataset.kind = p.kind || 'herb';
     a.innerHTML = `<div class="card__plate">${no}
         <div class="card__soon"><span class="leaf">🌿</span><b class="mr-d">लवकरच</b><small>Coming soon</small></div>
       </div>
@@ -147,6 +214,7 @@ function card(p) {
     return a;
   }
   const a = el('a', 'card card--ready');
+  a.dataset.kind = p.kind || 'herb';
   a.href = `patri.html?id=${p.id}`;
   a.innerHTML = `<div class="card__plate">${no}${plateInner(p, false)}</div>
     <div class="card__body"><h3 class="mr-d">${esc(p.name.mr)}</h3>

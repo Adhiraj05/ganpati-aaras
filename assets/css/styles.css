@@ -145,6 +145,27 @@ a{ color:inherit; }
 .hero .wrap{ position:relative; z-index:1; }
 @keyframes spin{ to{ transform:translateX(-50%) rotate(360deg); } }
 
+/* line-art Ganesha emblem */
+.hero-emblem{ display:flex; justify-content:center; margin:0 0 6px; }
+.ganesha{ width:82px; height:auto; color:var(--kumkum);
+  filter:drop-shadow(0 8px 14px rgba(155,34,38,.22)); }
+@media (max-width:640px){ .ganesha{ width:66px; } }
+
+/* grid filters */
+.filters{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 22px; }
+.filter{ cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--lat-body); border:1px solid var(--edge); background:var(--card);
+  color:var(--ink-soft); padding:8px 16px; border-radius:999px; line-height:1;
+  transition:background .2s ease, border-color .2s ease, color .2s ease, transform .12s ease; }
+.filter .mr-d{ font-size:1.05rem; }
+.filter .en{ font-family:var(--lat-display); font-size:11px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ink-faint); }
+.filter:hover{ border-color:var(--gold); transform:translateY(-1px); }
+.filter.active{ background:var(--kumkum); border-color:var(--kumkum); color:#fff;
+  box-shadow:0 8px 18px -10px var(--kumkum); }
+.filter.active .en{ color:#fff; opacity:.8; }
+.card.is-hidden{ display:none; }
+
 /* =====================================================================
    DATES RIBBON (home)
    ===================================================================== */
