@@ -90,7 +90,7 @@ const KIND = {
    पत्री क्र. १, मालती (पूर्ण संशोधन दस्तऐवजावर आधारित)
    ===================================================================== */
 const MALATI = {
-  id: "malati", number: 1, ready: true, kind: "flower", image: "assets/img/malati.png",
+  id: "malati", number: 1, ready: true, kind: "flower", image: "assets/img/malati.jpg",
   name:      { mr: "मालती / मधुमालती", en: "Malati" },
   common:    { mr: "चमेली / जाई", en: "Spanish (Royal) Jasmine" },
   botanical: "Jasminum grandiflorum L.", family: "Oleaceae",
@@ -335,7 +335,7 @@ function buildPatri(b) {
     callout:{ title:b.note.title, points:[ { mr:b.note.mr, en:b.note.en } ] } });
 
   return {
-    id:b.id, number:b.number, ready:true, kind:KIND[b.id] || "herb", image:b.image || null,
+    id:b.id, number:b.number, ready:true, kind:KIND[b.id] || "herb", image:b.image || `assets/img/${b.id}.jpg`,
     name:b.name, common:b.common, botanical:b.botanical, family:b.family,
     tagline:{ mr:`एकविंशति पत्रींपैकी क्रमांक ${DEVANAGARI_NUM[b.number]}`,
               en:`Patri ${b.number} of the twenty-one sacred leaves` },

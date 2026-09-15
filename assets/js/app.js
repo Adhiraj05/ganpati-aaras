@@ -29,7 +29,8 @@ const placeholderInner = (p, big) =>
 function plateInner(p, big) {
   if (!p.image) return placeholderInner(p, big);
   const ph = placeholderInner(p, big).replace('class="plate-ph"', 'class="plate-ph" hidden');
-  return `<img src="${p.image}" alt="${esc(p.name.en)}, ${esc(p.botanical)}"
+  const load = big ? 'eager' : 'lazy';
+  return `<img src="${p.image}" alt="${esc(p.name.en)}, ${esc(p.botanical)}" loading="${load}" decoding="async"
       onerror="var pl=this.parentElement;pl.classList.add('noimg');var g=pl.querySelector('.plate-ph');if(g)g.hidden=false;this.remove();">${ph}`;
 }
 
