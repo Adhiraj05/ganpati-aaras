@@ -96,6 +96,7 @@ const header = active => `
     </a>
     <nav class="nav">
       <a href="index.html" class="${active === 'home' ? 'active' : ''}">पत्री संग्रह</a>
+      <a href="index.html#mantra">मंत्र</a>
       <a href="index.html#about">आरास विषयी</a>
     </nav>
   </div></header>`;
@@ -107,6 +108,37 @@ const footer = () => `
     <p class="mr">${esc(FESTIVAL.host.mr)} · गणपती बाप्पा मोरया</p>
     <p class="en" lang="en">${esc(FESTIVAL.host.en)} · A living almanac of the twenty-one sacred leaves.</p>
   </div></footer>`;
+
+/* corner flourish for the Lakhota frame */
+const LK_CORNER = `<svg viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1.6"
+  stroke-linecap="round" aria-hidden="true">
+  <path d="M6 6 C6 26 6 40 6 40 M6 6 C26 6 40 6 40 6"/>
+  <path d="M12 12 C12 24 20 30 30 30 C22 22 20 16 12 12 Z" fill="currentColor" stroke="none" opacity=".8"/>
+  <circle cx="14" cy="14" r="2.4" fill="currentColor" stroke="none"/>
+</svg>`;
+
+/* the decorated Lakhota (old-style folded pooja letter) with all 21 naam-mantras */
+function lakhotaSection() {
+  const lines = MANTRAS.map((m, i) =>
+    `<li><span class="lk-no devnum">${DEVANAGARI_NUM[i + 1]}</span>
+       <span class="lk-line mr-d">${esc(m.line)}</span></li>`).join('');
+  return `
+    <section id="mantra" class="lakhota-sec"><div class="wrap">
+      <div class="grid-head"><h2 class="mr-d">पत्री नाम-मंत्र</h2><span>The Twenty-One Offerings</span></div>
+      <div class="lakhota">
+        <span class="lk-corner tl">${LK_CORNER}</span><span class="lk-corner tr">${LK_CORNER}</span>
+        <span class="lk-corner bl">${LK_CORNER}</span><span class="lk-corner br">${LK_CORNER}</span>
+        <div class="lk-flap"><span class="lk-seal">ॐ</span></div>
+        <div class="lk-inner">
+          <div class="lk-shri mr-d">॥ श्री गणेशाय नमः ॥</div>
+          <h3 class="lk-title mr-d">एकविंशति पत्री, नाम-मंत्र</h3>
+          <p class="lk-sub">Ekavimshati Patri, the twenty-one sacred leaf offerings</p>
+          <ol class="lk-list">${lines}</ol>
+          <div class="lk-foot mr-d">॥ गणपती बाप्पा मोरया ॥</div>
+        </div>
+      </div>
+    </div></section>`;
+}
 
 /* home grid filters */
 const FILTERS = [
@@ -146,6 +178,8 @@ function renderHome(root) {
             <span class="dlabel en" lang="en">${esc(d.label.en)} · ${esc(d.date.en)}</span></div>`).join('')}
         </div>
       </div></section>
+
+      ${lakhotaSection()}
 
       <section id="patris"><div class="wrap">
         <div class="grid-head">
@@ -267,11 +301,15 @@ function renderDetail(root) {
 
 function mantraCard(p) {
   if (p.mantra) {
+    const d = p.deityName || {};
+    const deity = [d.mr, d.en].filter(Boolean).map(esc).join(' · ') || 'पत्री अर्पण · Leaf offering';
+    const meaning = p.mantraMeaning
+      ? `<p class="mean"><span class="mr">${esc(p.mantraMeaning.mr)}</span>
+           <span class="en" lang="en">${esc(p.mantraMeaning.en)}</span></p>` : '';
     return `<div class="mantra-card">
-      <p class="deity">${esc(p.deityName.mr)} · ${esc(p.deityName.en)}</p>
+      <p class="deity">${deity}</p>
       <p class="mantra">${esc(p.mantra)}</p>
-      <p class="mean"><span class="mr">${esc(p.mantraMeaning.mr)}</span>
-         <span class="en" lang="en">${esc(p.mantraMeaning.en)}</span></p></div>`;
+      ${meaning}</div>`;
   }
   // no verified mantra yet, show a graceful, honest note
   return `<div class="mantra-card mantra-card--await">
@@ -327,7 +365,7 @@ function setupMotion(root) {
   if (hero && !reduce) hero.classList.add('enter');
   if (reduce) return;
 
-  const items = [...root.querySelectorAll('.grid-head, .grid .card, .dates-strip, .fcard, .sec, .pager')];
+  const items = [...root.querySelectorAll('.grid-head, .grid .card, .dates-strip, .lakhota, .fcard, .sec, .pager')];
   // stagger the grid cards, festival cards and date chips within their rows
   root.querySelectorAll('.grid .card').forEach((n, i) =>
     n.style.setProperty('animation-delay', (Math.min(i, 9) * 0.055) + 's'));

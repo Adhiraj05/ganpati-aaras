@@ -211,6 +211,65 @@ a{ color:inherit; }
 .fcard .en{ display:block; margin:10px 0 0; color:var(--ink-faint); font-size:.88rem; }
 
 /* =====================================================================
+   LAKHOTA  (old-style folded pooja letter with the 21 naam-mantras)
+   ===================================================================== */
+.lakhota-sec{ margin:8px 0 26px; }
+.lakhota{
+  position:relative; max-width:660px; margin:0 auto; padding:52px 34px 40px;
+  background:
+    radial-gradient(120% 75% at 50% 0%, #fbf0d2 0%, transparent 62%),
+    radial-gradient(100% 60% at 50% 100%, #eedca8 0%, transparent 58%),
+    linear-gradient(#fbf3dd, #f4e6c1);
+  border:1px solid var(--gold); border-radius:6px;
+  box-shadow:var(--shadow-lift), inset 0 0 0 1px #ffffff88, inset 0 0 70px rgba(176,120,50,.14);
+}
+/* inner double frame */
+.lakhota::before{ content:""; position:absolute; inset:9px; border:1.5px double var(--kumkum);
+  border-radius:4px; opacity:.5; pointer-events:none; }
+/* faint fold creases: one vertical, two horizontal, like a folded letter */
+.lakhota::after{ content:""; position:absolute; inset:0; pointer-events:none; border-radius:6px;
+  background:
+    linear-gradient(90deg, transparent calc(50% - 1px), rgba(150,100,40,.10) 50%, transparent calc(50% + 1px)),
+    linear-gradient(0deg, transparent calc(33% - 1px), rgba(150,100,40,.07) 33%, transparent calc(33% + 1px),
+                          transparent calc(66% - 1px), rgba(150,100,40,.07) 66%, transparent calc(66% + 1px)); }
+
+.lk-corner{ position:absolute; width:42px; height:42px; color:var(--kumkum); opacity:.7; z-index:2; }
+.lk-corner.tl{ top:5px; left:5px; }
+.lk-corner.tr{ top:5px; right:5px; transform:scaleX(-1); }
+.lk-corner.bl{ bottom:5px; left:5px; transform:scaleY(-1); }
+.lk-corner.br{ bottom:5px; right:5px; transform:scale(-1); }
+
+.lk-flap{ position:absolute; top:-24px; left:50%; transform:translateX(-50%); z-index:3; }
+.lk-seal{ display:grid; place-items:center; width:52px; height:52px; border-radius:50%;
+  background:radial-gradient(circle at 38% 32%, #c14a52, var(--kumkum-deep));
+  color:#f7e7c8; font-size:23px; font-family:var(--dev-display);
+  border:2px solid #e8c98e;
+  box-shadow:0 7px 16px -6px rgba(122,21,25,.7), inset 0 2px 5px rgba(255,255,255,.3); }
+
+.lk-inner{ position:relative; z-index:2; text-align:center; }
+.lk-shri{ color:var(--kumkum); font-size:1.05rem; letter-spacing:.03em; margin-top:4px; }
+.lk-title{ font-family:var(--dev-display); font-weight:400; font-size:1.9rem; color:var(--ink); margin:8px 0 3px; }
+.lk-sub{ font-family:var(--lat-display); font-size:11.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--ink-faint); margin:0 0 22px; }
+.lk-list{ list-style:none; margin:0 auto; padding:0; max-width:540px; }
+.lk-list li{ display:flex; align-items:baseline; justify-content:center; gap:12px;
+  padding:9px 4px; border-bottom:1px dotted rgba(150,100,40,.30); }
+.lk-list li:last-child{ border-bottom:0; }
+.lk-no{ color:var(--saffron-deep); font-size:1rem; min-width:1.7em; text-align:right; }
+.lk-line{ color:var(--ink); font-size:1.22rem; line-height:1.5; }
+.lk-foot{ color:var(--kumkum); font-size:1.2rem; margin-top:22px; }
+
+@media (max-width:640px){
+  .lakhota{ padding:44px 16px 30px; }
+  .lakhota::before{ inset:7px; }
+  .lk-title{ font-size:1.5rem; }
+  .lk-list li{ flex-direction:column; gap:2px; padding:11px 2px; }
+  .lk-no{ text-align:center; min-width:0; }
+  .lk-line{ font-size:1.08rem; }
+  .lk-corner{ width:32px; height:32px; }
+}
+
+/* =====================================================================
    PATRI GRID (home)
    ===================================================================== */
 .grid-head{ display:flex; align-items:baseline; justify-content:space-between; gap:16px;

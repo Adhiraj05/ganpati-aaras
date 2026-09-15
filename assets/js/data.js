@@ -53,6 +53,31 @@ const FESTIVAL = {
 
 const DEVANAGARI_NUM = ["०","१","२","३","४","५","६","७","८","९","१०","११","१२","१३","१४","१५","१६","१७","१८","१९","२०","२१"];
 
+/* एकविंशति पत्री नाम-मंत्र (आईंच्या verified मंत्र फाईलवरून, पत्री क्रमानुसार) */
+const MANTRAS = [
+  { deity:"सुमुख",     line:"ॐ सुमुखाय नमः । मालतीपत्रं समर्पयामि ॥" },
+  { deity:"गणाधिप",    line:"ॐ गणाधिपाय नमः । भृंगराजपत्रं समर्पयामि ॥" },
+  { deity:"उमापुत्र",  line:"ॐ उमापुत्राय नमः । बिल्वपत्रं समर्पयामि ॥" },
+  { deity:"गजानन",     line:"ॐ गजाननाय नमः । श्वेतदूर्वापत्रं समर्पयामि ॥" },
+  { deity:"लंबोदर",    line:"ॐ लंबोदराय नमः । बदरीपत्रं समर्पयामि ॥" },
+  { deity:"हरसूनु",    line:"ॐ हरसूनवे नमः । धत्तूरपत्रं समर्पयामि ॥" },
+  { deity:"गजकर्णक",   line:"ॐ गजकर्णकाय नमः । तुलसीपत्रं समर्पयामि ॥" },
+  { deity:"वक्रतुण्ड", line:"ॐ वक्रतुण्डाय नमः । शमीपत्रं समर्पयामि ॥" },
+  { deity:"गुहाग्रज",  line:"ॐ गुहाग्रजाय नमः । अपामार्गपत्रं समर्पयामि ॥" },
+  { deity:"एकदंत",     line:"ॐ एकदंताय नमः । बृहतीपत्रं समर्पयामि ॥" },
+  { deity:"विकट",      line:"ॐ विकटाय नमः । करवीरपत्रं समर्पयामि ॥" },
+  { deity:"कपिल",      line:"ॐ कपिलाय नमः । अर्कपत्रं समर्पयामि ॥" },
+  { deity:"गजदंत",     line:"ॐ गजदंताय नमः । अर्जुनपत्रं समर्पयामि ॥" },
+  { deity:"विघ्नराज",  line:"ॐ विघ्नराजाय नमः । विष्णुक्रान्तापत्रं समर्पयामि ॥" },
+  { deity:"बटु",       line:"ॐ बटवे नमः । दाडिमपत्रं समर्पयामि ॥" },
+  { deity:"सुराग्रज",  line:"ॐ सुराग्रजाय नमः । देवदारुपत्रं समर्पयामि ॥" },
+  { deity:"भालचंद्र",  line:"ॐ भालचंद्राय नमः । मरुवकपत्रं समर्पयामि ॥" },
+  { deity:"हेरंब",     line:"ॐ हेरंबाय नमः । अश्वत्थपत्रं समर्पयामि ॥" },
+  { deity:"चतुर्भुज",  line:"ॐ चतुर्भुजाय नमः । जातिपत्रं समर्पयामि ॥" },
+  { deity:"विनायक",    line:"ॐ विनायकाय नमः । केतकीपत्रं समर्पयामि ॥" },
+  { deity:"सर्वेश्वर", line:"ॐ सर्वेश्वराय नमः । अगस्तिपत्रं समर्पयामि ॥" }
+];
+
 /* वर्गीकरण (kind) for the home filter: flower / tree / herb */
 const KIND = {
   malati:"flower", maka:"herb", bilva:"tree", durva:"herb", badari:"tree",
@@ -314,8 +339,9 @@ function buildPatri(b) {
     name:b.name, common:b.common, botanical:b.botanical, family:b.family,
     tagline:{ mr:`एकविंशति पत्रींपैकी क्रमांक ${DEVANAGARI_NUM[b.number]}`,
               en:`Patri ${b.number} of the twenty-one sacred leaves` },
-    mantra:b.mantra || null,
-    deityName:b.deityName, mantraMeaning:b.mantraMeaning,
+    mantra:b.mantra || (MANTRAS[b.number-1] && MANTRAS[b.number-1].line) || null,
+    deityName:b.deityName || (MANTRAS[b.number-1] && { mr:"श्री " + MANTRAS[b.number-1].deity }),
+    mantraMeaning:b.mantraMeaning,
     sections,
     references:[
       { mr:"महाराष्ट्रातील प्रचलित एकविंशति-पत्री गणेशपूजा परंपरा.",
