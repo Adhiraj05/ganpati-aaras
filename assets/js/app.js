@@ -93,7 +93,7 @@ const header = active => `
   <header class="site-head"><div class="wrap">
     <a class="brand" href="index.html">
       <span class="om">ॐ</span>
-      <span><b class="mr-d">गौरी-गणपती आरास</b><small>Sacred Patri Almanac · २०२६</small></span>
+      <span><b class="mr-d">गौरी-गणपती आरास</b><small>Gauri-Ganpati Aaras · २०२६</small></span>
     </a>
     <nav class="nav">
       <a href="index.html" class="${active === 'home' ? 'active' : ''}">पत्री संग्रह</a>
@@ -106,8 +106,10 @@ const footer = () => `
   ${TORANA('torana--maroon')}
   <footer class="site-foot"><div class="wrap">
     <div class="om">ॐ</div>
-    <p class="mr">${esc(FESTIVAL.host.mr)} · गणपती बाप्पा मोरया</p>
-    <p class="en" lang="en">${esc(FESTIVAL.host.en)} · A living almanac of the twenty-one sacred leaves.</p>
+    <p class="mr foot-host">${esc(FESTIVAL.host.mr)}</p>
+    <p class="en foot-host" lang="en">${esc(FESTIVAL.host.en)}</p>
+    <p class="mr-d foot-morya">॥ गणपती बाप्पा मोरया • मंगलमूर्ती मोरया ॥</p>
+    <p class="en foot-morya-en" lang="en">Ganapati Bappa Morya • Mangalmurti Morya</p>
   </div></footer>`;
 
 /* corner flourish for the Lakhota frame */
@@ -141,21 +143,18 @@ function lakhotaSection() {
     </div></section>`;
 }
 
-/* home grid filters */
-const FILTERS = [
-  { key: "all",    mr: "सर्व",          en: "All" },
-  { key: "flower", mr: "फुले",          en: "Flowers" },
-  { key: "tree",   mr: "वृक्ष",         en: "Trees" },
-  { key: "herb",   mr: "पत्री व वेली",  en: "Herbs & Leaves" }
-];
-
 /* ------------------------------- HOME ------------------------------- */
 function renderHome(root) {
-  const readyCount = PATRIS.filter(p => p.ready).length;
   root.innerHTML = header('home') + TORANA() + `
     <main>
       <section class="hero">${MANDALA}<div class="wrap">
-        <div class="hero-emblem">${GANESHA}</div>
+        <figure class="hero-murti">
+          <img src="assets/img/ganpati.jpeg" alt="श्री गणेश · our home's Ganpati" loading="eager" decoding="async"
+            onerror="this.closest('.hero-murti').classList.add('noimg');this.remove();">
+          <div class="murti-fallback">${GANESHA}</div>
+        </figure>
+        <p class="hero-welcome mr">${esc(FESTIVAL.welcome.mr)}
+          <span class="en" lang="en">${esc(FESTIVAL.welcome.en)}</span></p>
         <p class="kicker">गणेशोत्सव · ${esc(FESTIVAL.year)}</p>
         <h1 class="mr-d">${esc(FESTIVAL.title.mr)}</h1>
         <div class="year">Gauri-Ganpati Aaras · ${esc(FESTIVAL.year)}</div>
@@ -163,21 +162,6 @@ function renderHome(root) {
           <span class="en" lang="en">${esc(FESTIVAL.theme.en)}</span></p>
         <p class="intro mr">${esc(FESTIVAL.intro.mr)}
           <span class="en" lang="en">${esc(FESTIVAL.intro.en)}</span></p>
-        <div class="count-pill">
-          <span class="mr">एकविंशति पत्री</span> ·
-          <b class="devnum">${DEVANAGARI_NUM[readyCount]}</b>
-          <span class="en" lang="en">of ${PATRIS.length} unveiled</span>
-        </div>
-      </div></section>
-
-      <section class="dates-strip"><div class="wrap">
-        <div class="dates-head"><span class="mr-d">२०२६ चा पंचांग</span><span class="en" lang="en">Festival dates · Maharashtra</span></div>
-        <div class="dates">
-          ${FESTIVAL.dates.map(d => `<div class="date-chip">
-            <b class="mr-d">${esc(d.date.mr)}</b>
-            <span class="dlabel mr">${esc(d.label.mr)}</span>
-            <span class="dlabel en" lang="en">${esc(d.label.en)} · ${esc(d.date.en)}</span></div>`).join('')}
-        </div>
       </div></section>
 
       ${lakhotaSection()}
@@ -186,10 +170,6 @@ function renderHome(root) {
         <div class="grid-head">
           <h2 class="mr-d">पत्री संग्रह</h2>
           <span>The Twenty-One Leaves</span>
-        </div>
-        <div class="filters" id="filters">
-          ${FILTERS.map((f, i) => `<button class="filter${i === 0 ? ' active' : ''}" data-key="${f.key}" type="button">
-            <span class="mr-d">${esc(f.mr)}</span><span class="en">${esc(f.en)}</span></button>`).join('')}
         </div>
         <div class="grid" id="grid"></div>
       </div></section>
@@ -209,30 +189,6 @@ function renderHome(root) {
 
   const grid = $('#grid', root);
   PATRIS.forEach(p => grid.appendChild(card(p)));
-  wireFilters(root);
-}
-
-/* filter the grid by kind (flower / tree / herb), with a soft re-entrance */
-function wireFilters(root) {
-  const btns = [...root.querySelectorAll('.filter')];
-  const cards = [...root.querySelectorAll('#grid .card')];
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  btns.forEach(btn => btn.addEventListener('click', () => {
-    btns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const key = btn.dataset.key;
-    let shown = 0;
-    cards.forEach(c => {
-      const match = key === 'all' || c.dataset.kind === key;
-      c.classList.toggle('is-hidden', !match);
-      if (match && !reduce) {
-        c.style.animation = 'none';
-        void c.offsetWidth;                       // reflow to replay
-        c.style.animation = `fadeUp .45s ${Math.min(shown, 9) * 0.04}s both`;
-        shown++;
-      }
-    });
-  }));
 }
 
 function card(p) {

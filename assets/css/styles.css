@@ -46,7 +46,8 @@ section[id]{ scroll-margin-top:72px; }   /* anchor jumps clear the sticky header
 body{
   margin:0;
   background:
-    radial-gradient(1200px 600px at 50% -10%, #fbf4e2 0%, transparent 60%),
+    radial-gradient(1100px 520px at 50% -8%, #fdf3d6 0%, transparent 62%),
+    radial-gradient(900px 520px at 50% 106%, #f7e9c4 0%, transparent 60%),
     var(--paper);
   color:var(--ink);
   font-family:var(--lat-body);
@@ -84,9 +85,10 @@ a{ color:inherit; }
    ===================================================================== */
 .site-head{
   position:sticky; top:0; z-index:20;
-  background:linear-gradient(#f7edd8f2,#f7edd8e6);
+  background:linear-gradient(#fbf2dcf2,#f7edd8e6);
   backdrop-filter:blur(6px);
-  border-bottom:1px solid var(--edge);
+  border-bottom:1px solid var(--gold-soft);
+  box-shadow:0 2px 14px -10px var(--saffron-deep);
 }
 .site-head .wrap{ display:flex; align-items:center; gap:16px; height:66px; }
 .brand{ display:flex; align-items:center; gap:12px; text-decoration:none; margin-right:auto; }
@@ -108,6 +110,17 @@ a{ color:inherit; }
    HERO (home)
    ===================================================================== */
 .hero{ text-align:center; padding:64px 0 28px; }
+.hero-welcome{
+  max-width:680px; margin:0 auto 22px; padding:16px 22px;
+  border:1px solid var(--gold); border-radius:14px;
+  background:linear-gradient(180deg, #fffdf7, var(--paper-2));
+  box-shadow:0 10px 28px -18px var(--saffron-deep);
+  font-family:var(--dev-display); font-size:1.18rem; line-height:1.5;
+  color:var(--kumkum); text-wrap:balance;
+}
+.hero-welcome .en{ display:block; margin-top:8px; font-family:var(--lat-body);
+  font-size:.92rem; color:var(--ink-faint); letter-spacing:.01em; }
+@media (max-width:640px){ .hero-welcome{ font-size:1.05rem; padding:14px 16px; } }
 .hero .kicker{
   font-family:var(--lat-display); letter-spacing:.32em; text-transform:uppercase;
   font-size:13px; color:var(--saffron-deep); margin:0 0 18px;
@@ -150,6 +163,34 @@ a{ color:inherit; }
 
 /* line-art Ganesha emblem */
 .hero-emblem{ display:flex; justify-content:center; margin:0 0 6px; }
+.hero-murti{
+  margin:0 auto 18px; width:min(300px, 74vw); aspect-ratio:3/4;
+  border-radius:14px 14px 12px 12px; overflow:hidden; position:relative;
+  padding:8px; background:
+    linear-gradient(160deg, var(--saffron), var(--saffron-deep));
+  box-shadow:0 18px 44px -16px var(--saffron-deep), 0 4px 14px -6px rgba(58,23,16,.35);
+}
+.hero-murti::after{
+  content:""; position:absolute; inset:8px; border-radius:8px;
+  border:1px solid #fff8; pointer-events:none;
+}
+.hero-murti::before{
+  content:""; position:absolute; inset:-30px; z-index:-1; border-radius:28px;
+  background:radial-gradient(circle at 50% 46%, rgba(224,138,30,.30), transparent 70%);
+  filter:blur(4px); pointer-events:none;
+}
+@media (prefers-reduced-motion:no-preference){
+  .hero-murti::before{ animation:diyaGlow 4.6s ease-in-out infinite; }
+}
+@keyframes diyaGlow{ 0%,100%{ opacity:.7; } 50%{ opacity:1; } }
+.hero-murti img{ width:100%; height:100%; object-fit:cover; border-radius:8px; display:block; }
+.hero-murti .murti-fallback{ display:none; }
+.hero-murti.noimg{ background:var(--paper-2); box-shadow:none; padding:0;
+  border:1px solid var(--gold); place-items:center; display:grid; }
+.hero-murti.noimg::after{ display:none; }
+.hero-murti.noimg .murti-fallback{ display:grid; place-items:center; }
+.hero-murti.noimg .ganesha{ width:96px; color:var(--kumkum); }
+@media (max-width:640px){ .hero-murti{ width:min(240px, 66vw); margin-bottom:14px; } }
 .ganesha{ width:82px; height:auto; color:var(--kumkum);
   filter:drop-shadow(0 8px 14px rgba(155,34,38,.22)); }
 @media (max-width:640px){ .ganesha{ width:66px; } }
@@ -300,17 +341,20 @@ a{ color:inherit; }
   position:relative; aspect-ratio:1/1; background:
     radial-gradient(circle at 50% 40%, #fff, var(--paper-2));
   display:grid; place-items:center; border-bottom:1px solid var(--edge); overflow:hidden;
+  padding:52px 16px 16px;
 }
-.card__plate img{ width:82%; height:82%; object-fit:contain;
+.card__plate img{ width:100%; height:100%; object-fit:contain;
   filter:drop-shadow(0 12px 18px rgba(58,23,16,.18));
   transition:transform .5s cubic-bezier(.2,.7,.2,1); }
-.card--ready:hover .card__plate img{ transform:scale(1.06) rotate(-1deg); }
+.card--ready:hover .card__plate img{ transform:scale(1.04); }
 .card__no{ transition:background .3s ease, color .3s ease, border-color .3s ease; }
 .card__no{
   position:absolute; top:10px; left:12px; font-family:var(--dev-display);
   font-size:1.15rem; color:var(--kumkum);
   width:34px; height:34px; display:grid; place-items:center;
-  border:1px solid var(--gold); border-radius:50%; background:#fffaf0cc;
+  border:1px solid var(--gold); border-radius:50%;
+  background:radial-gradient(circle at 50% 30%, #fffdf6, #fbeaca);
+  box-shadow:0 2px 7px -1px rgba(58,23,16,.35), inset 0 1px 0 #fff; z-index:2;
 }
 .card__soon{
   position:absolute; inset:0; display:grid; place-items:center; gap:6px;
@@ -439,11 +483,18 @@ a{ color:inherit; }
 /* =====================================================================
    FOOTER
    ===================================================================== */
-.site-foot{ margin-top:40px; border-top:1px solid var(--edge); background:var(--paper-2); }
+.site-foot{ margin-top:40px; border-top:1px solid var(--gold-soft);
+  background:
+    radial-gradient(760px 280px at 50% 122%, #f8e7bf 0%, transparent 70%),
+    var(--paper-2); }
 .site-foot .wrap{ padding:34px 24px; text-align:center; color:var(--ink-soft); }
 .site-foot .om{ font-size:1.6rem; color:var(--saffron-deep); }
 .site-foot p{ margin:8px 0 0; font-size:.92rem; }
 .site-foot .en{ color:var(--ink-faint); font-size:.85rem; }
+.site-foot .foot-host{ font-size:1rem; color:var(--ink); }
+.site-foot .foot-morya{ margin-top:16px; font-family:var(--dev-display);
+  font-size:1.25rem; color:var(--kumkum); }
+.site-foot .foot-morya-en{ margin-top:4px; letter-spacing:.08em; }
 
 /* =====================================================================
    RESPONSIVE  (mobile-first refinements; most people open this on a phone)
@@ -482,6 +533,7 @@ p{ overflow-wrap:break-word; }
   .card__body .en{ font-size:.82rem; }
   .card__body em{ font-size:.72rem; margin-top:6px; }
   .card__no{ width:28px; height:28px; font-size:1rem; top:8px; left:8px; }
+  .card__plate{ padding:40px 12px 12px; }
 
   .dates-head .mr-d{ font-size:1.25rem; }
   .fcard{ padding:18px 18px 20px; }
